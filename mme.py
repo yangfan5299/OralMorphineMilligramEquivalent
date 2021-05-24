@@ -6,11 +6,10 @@
 #Remove Tapentadol related record
 #Remove records not in the timeframe
 
-
-
-
+#######2.Report the percentage of patients who meet the 90 MME per day threshold in 2019 Quarter 3 using the four definitions in the below example########
 
 ################################ Question 2.1 ##############################################
+
 
 #Prescription.csv is the Prescription Dispensation Records
 #Opioids.csv is the Opioids tab from CDC_Oral_Morphine_Milligram_Equivalents_Sept_2018.xlsx
