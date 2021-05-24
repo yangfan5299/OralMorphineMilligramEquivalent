@@ -8,7 +8,7 @@
 
 #######2.Report the percentage of patients who meet the 90 MME per day threshold in 2019 Quarter 3 using the four definitions in the below example########
 
-################################ Question 2.1 ##############################################
+################################ Question 2 ##############################################
 
 
 #Prescription.csv is the Prescription Dispensation Records
@@ -219,92 +219,4 @@ def4.to_csv(r"C:\Users\yangf\Desktop\Definition4.csv")
 0    0.974093
 1    0.025907
 Name: Meet_90_MME, dtype: float64
-################################ Question 2.3 ##############################################
-##-------------------------------------------------------------------------
-## 2.3  Create overlap table form patient data per day table
-##-------------------------------------------------------------------------
 
-overlap=pd.read_csv(r"C:\Users\yangf\Desktop\patientdataperday.csv",engine='python')
-#select limited columns
-overlap=overlap[['PatientID', 'Date','LongShortActing']]
-
-#pick the patient that have SA and lA at the same day
-overlap.drop_duplicates(['PatientID', 'Date','LongShortActing'], inplace=True,keep = 'first')
-overlap =overlap.groupby(["PatientID","Date"])["PatientID"].count().reset_index(name="CountNumberofLASA")
-overlap =overlap[(overlap["CountNumberofLASA"] >= 2)]
-overlap.drop_duplicates(['PatientID'], inplace=True,keep = 'first')
-overlap=overlap[['PatientID']]
-
-overlap.to_csv(r"C:\Users\yangf\Desktop\overlap.csv")
-##-------------------------------------------------------------------------
-## 2.3.1  Definition 1: percentage of patients meet the 90 MME per day threshold and have LASA overlap 
-##-------------------------------------------------------------------------
-
-PatientID_Def1=pd.read_csv(r"C:\Users\yangf\Desktop\Definition1.csv",engine='python')
-
-#number of total patient in Q3
-total_Patient = PatientID_Def1.shape[0]
-PatientID_Def1 = PatientID_Def1[(PatientID_Def1["Meet_90_MME"] == 1)]
-PatientID_Def1 = pd.merge(PatientID_Def1,overlap[['PatientID']],on='PatientID', how='inner')
-#number of total patient meet the 90 MME per day threshold and have LASA overlap in Q3 for definition 1
-total_Patient_overlap=PatientID_Def1.shape[0]
-
-# percentage of patients meet the 90 MME per day threshold and have LASA overlap
-Percentage_Def1=(total_Patient_overlap)/total_Patient*100
-
-print(Percentage_Def1 , '% Of patients meet the 90 MME per day threshold and have LASA overlap under definition 1')
-0.2590673575129534 % Of patients meet the 90 MME per day threshold and have LASA overlap under definition 1
-##-------------------------------------------------------------------------
-## 2.3.2  Definition 2: percentage of patients meet the 90 MME per day threshold and have LASA overlap 
-##-------------------------------------------------------------------------
-
-PatientID_Def2=pd.read_csv(r"C:\Users\yangf\Desktop\Definition2.csv",engine='python')
-#number of total patient in Q3
-total_Patient = PatientID_Def2.shape[0]
-
-PatientID_Def2 = PatientID_Def2[(PatientID_Def2["Meet_90_MME"] == 1)]
-PatientID_Def2 = pd.merge(PatientID_Def2,overlap[['PatientID']],on='PatientID', how='inner')
-
-#number of total patient meet the 90 MME per day threshold and have LASA overlap in Q3 for definition 2
-total_Patient_overlap=PatientID_Def2.shape[0]
-
-# percentage of patients meet the 90 MME per day threshold and have LASA overlap
-Percentage_Def2=(total_Patient_overlap)/total_Patient*100
-
-
-print(Percentage_Def2 , '% Of patients meet the 90 MME per day threshold and have LASA overlap under definition 2')
-##-------------------------------------------------------------------------
-## 2.3.3  Definition 3: percentage of patients meet the 90 MME per day threshold and have LASA overlap 
-##-------------------------------------------------------------------------
-PatientID_Def3=pd.read_csv(r"C:\Users\yangf\Desktop\Definition3.csv",engine='python')
-
-#number of total patient in Q3
-total_Patient = PatientID_Def3.shape[0]
-PatientID_Def3 = PatientID_Def3[(PatientID_Def3["Meet_90_MME"] == 1)]
-PatientID_Def3 = pd.merge(PatientID_Def3,overlap[['PatientID']],on='PatientID', how='inner')
-
-#number of total patient meet the 90 MME per day threshold and have LASA overlap in Q3 for definition 3
-total_Patient_overlap=PatientID_Def3.shape[0]
-
-# percentage of patients meet the 90 MME per day threshold and have LASA overlap
-Percentage_Def3=(total_Patient_overlap)/total_Patient*100
-
-print(Percentage_Def3 , '% Of patients meet the 90 MME per day threshold and have LASA overlap under definition 3')
-
-##-------------------------------------------------------------------------
-## 2.3.4  Definition 4: percentage of patients meet the 90 MME per day threshold and have LASA overlap 
-##-------------------------------------------------------------------------
-PatientID_Def4=pd.read_csv(r"C:\Users\yangf\Desktop\Definition4.csv",engine='python')
-
-#number of total patient in Q3
-total_Patient = PatientID_Def4.shape[0]
-PatientID_Def4 = PatientID_Def4[(PatientID_Def4["Meet_90_MME"] == 1)]
-PatientID_Def4 = pd.merge(PatientID_Def4,overlap[['PatientID']],on='PatientID', how='inner')
-
-#number of total patient meet the 90 MME per day threshold and have LASA overlap in Q3 for definition 2
-total_Patient_overlap=PatientID_Def4.shape[0]
-
-# percentage of patients meet the 90 MME per day threshold and have LASA overlap
-Percentage_Def4=(total_Patient_overlap)/total_Patient*100
-
-print(Percentage_Def4 , '% Of patients meet the 90 MME per day threshold and have LASA overlap under definition 4')
