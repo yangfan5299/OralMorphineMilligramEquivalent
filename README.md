@@ -40,13 +40,25 @@ Assuming you receive a file	The CDC_Oral_Morphine_Milligram_Equivalents_Sept_201
 
 Assuming you receive a file containing prescription dispensation records in 2019 (prescription fill date in 2019) with the data structure as Table 1
 Table 1. Prescription Dispensation Records
-Column Name	      Description
-PatientID	        Patient Identifier
-NDC	National      Drug Code
-RxFillDate	      Prescription Fill Date
-RxDaysSupply	    Prescription Days of Supply
-Unit	            Number of Units
-
++-----------------+--------------------------------+--+--+--+
+|                 |                                |  |  |  |
+| Column Name     | Description                    |  |  |  |
++-----------------+--------------------------------+--+--+--+
+|                 |                                |  |  |  |
+| PatientID       | Patient Identifier             |  |  |  |
++-----------------+--------------------------------+--+--+--+
+|                 |                                |  |  |  |
+| NDC             | National Drug Code             |  |  |  |
++-----------------+--------------------------------+--+--+--+
+|                 |                                |  |  |  |
+| RxFillDate      | Prescription Fill Date         |  |  |  |
++-----------------+--------------------------------+--+--+--+
+|                 |                                |  |  |  |
+| RxDaysSupply    | Prescription Days of Supply    |  |  |  |
++-----------------+--------------------------------+--+--+--+
+|                 |                                |  |  |  |
+| Unit            | Number of Units                |  |  |  |
++-----------------+--------------------------------+--+--+--+
 
 
 
