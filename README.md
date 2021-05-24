@@ -40,24 +40,61 @@ Assuming you receive a file	The CDC_Oral_Morphine_Milligram_Equivalents_Sept_201
 
 Assuming you receive a file containing prescription dispensation records in 2019 (prescription fill date in 2019) with the data structure as Table 1
 Table 1. Prescription Dispensation Records
-+-----------------+--------------------------------+--+--+--+
-|                 |                                |  |  |  |
-| Column Name     | Description                    |  |  |  |
-+-----------------+--------------------------------+--+--+--+
-|                 |                                |  |  |  |
-| PatientID       | Patient Identifier             |  |  |  |
-+-----------------+--------------------------------+--+--+--+
-|                 |                                |  |  |  |
-| NDC             | National Drug Code             |  |  |  |
-+-----------------+--------------------------------+--+--+--+
-|                 |                                |  |  |  |
-| RxFillDate      | Prescription Fill Date         |  |  |  |
-+-----------------+--------------------------------+--+--+--+
-|                 |                                |  |  |  |
-| RxDaysSupply    | Prescription Days of Supply    |  |  |  |
-+-----------------+--------------------------------+--+--+--+
-|                 |                                |  |  |  |
-| Unit            | Number of Units                |  |  |  |
-+-----------------+--------------------------------+--+--+--+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+</style>
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Column Name&nbsp;&nbsp;&nbsp;</th>
+    <th class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Description&nbsp;&nbsp;&nbsp;</th>
+    <th class="tg-0pky"></th>
+    <th class="tg-0pky"></th>
+    <th class="tg-0pky"></th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>PatientID&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Patient Identifier&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky"></td>
+    <td class="tg-0pky"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>NDC&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>National Drug Code&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky"></td>
+    <td class="tg-0pky"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>RxFillDate&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Prescription Fill Date&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky"></td>
+    <td class="tg-0pky"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>RxDaysSupply&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Prescription Days of Supply&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky"></td>
+    <td class="tg-0pky"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Unit&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Number of Units&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky"></td>
+    <td class="tg-0pky"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+</tbody>
+</table>
 
 
