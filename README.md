@@ -36,6 +36,7 @@ With a 30-day window daily MME would be 93.5 MME.
 (4) Maximum daily MME
 As written, the highest dose on any given day (on opioid medication) is (60mg + 10mg) x 1.5 = 105 maximum daily MME
 
+Assuming you receive a file	The CDC_Oral_Morphine_Milligram_Equivalents_Sept_2018 file  provides details on how to calculate the Morphine Milligram Equivalents (MMEs) for opioid prescriptions (prescription level).
 
 Assuming you receive a file containing prescription dispensation records in 2019 (prescription fill date in 2019) with the data structure as Table 1
 Table 1. Prescription Dispensation Records
