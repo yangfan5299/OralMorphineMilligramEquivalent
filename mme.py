@@ -1,3 +1,10 @@
+################################ Question 1 ##############################################
+#1.	What data quality check procedures would you take when calculating MMEs at the patient level? (Hint: what kind of data/record would be excluded from the sample?)
+#Answers:Remove the rows and columns with Null/NaN values
+#Remove non Opioids related records 
+#Remove Buprenorphine related records
+#Remove Tapentadol related record
+#Remove records not in the timeframe
 
 
 
