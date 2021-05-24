@@ -6,21 +6,8 @@
 #Remove Tapentadol related record
 #Remove records not in the timeframe
 
-#######2.Report the percentage of patients who meet the 90 MME per day threshold in 2019 Quarter 3 using the four definitions in the below example########
-
-################################ Question 2 ##############################################
-
-
-#Prescription.csv is the Prescription Dispensation Records
-#Opioids.csv is the Opioids tab from CDC_Oral_Morphine_Milligram_Equivalents_Sept_2018.xlsx
-
-#import the Prescription Data and Opioids Data
-import pandas as pd
-df=pd.read_csv(r"C:\Users\yangf\Desktop\Prescription.csv",engine='python')
-dfmme=pd.read_csv(r"C:\Users\yangf\Desktop\Opioids.csv",engine='python')
-
 ##-------------------------------------------------------------------------
-## 2.1.1 Data Cleaning
+## 1.1 Data Cleaning
 ##-------------------------------------------------------------------------
 
 #remove rows and columns with Null/NaN values in Prescription Data
@@ -42,7 +29,7 @@ df = df[(df["RxFillDate"] >= '7/1/2019')&(df["RxFillDate"] <= '9/30/2019')]
 ################################ Question 2.2 ##############################################
 
 ##-------------------------------------------------------------------------
-## 2.1.2 Data Processing For Further Calculation
+## 1.2 Data Processing For Further Calculation
 ##-------------------------------------------------------------------------
 
 #Create Adjust_Strength_Per_Unit for UOM =MCG
@@ -62,8 +49,22 @@ df['Patient_MME_Sum'] = df.groupby(['PatientID'])['MME_Total_Per_Row'].transform
 
 #Save the Q3 merged file 
 df.to_csv(r"C:\Users\yangf\Desktop\mergeq3.csv")
+
+################################ Question 2 #############################################
+#2.Report the percentage of patients who meet the 90 MME per day threshold in 2019 Quarter 3 using the four definitions in the below example
+
+
+#Prescription.csv is the Prescription Dispensation Records
+#Opioids.csv is the Opioids tab from CDC_Oral_Morphine_Milligram_Equivalents_Sept_2018.xlsx
+
+#import the Prescription Data and Opioids Data
+import pandas as pd
+df=pd.read_csv(r"C:\Users\yangf\Desktop\Prescription.csv",engine='python')
+dfmme=pd.read_csv(r"C:\Users\yangf\Desktop\Opioids.csv",engine='python')
+
+
 ##-------------------------------------------------------------------------
-## 2.2 Create a table for Patient erveryday medicine usage
+## 2 Create a table for Patient erveryday medicine usage
 ##-------------------------------------------------------------------------
 import numpy as np
 from datetime import timedelta
@@ -116,7 +117,7 @@ new_data["Daily_PerDate_PerPatient"] = (new_data.groupby(["PatientID","Date"])["
 
 new_data.to_csv(r"C:\Users\yangf\Desktop\patientdataperday.csv")
 ##-------------------------------------------------------------------------
-## 2.2.1 Definition 1 Summing_days_supply
+## 2.1 Definition 1 Summing_days_supply
 ##-------------------------------------------------------------------------
 
 df=pd.read_csv(r"C:\Users\yangf\Desktop\mergeq3.csv",engine='python')
@@ -143,7 +144,7 @@ def1.to_csv(r"C:\Users\yangf\Desktop\Definition1.csv")
 1    0.020725
 Name: Meet_90_MME, dtype: float64
 ##-------------------------------------------------------------------------
-## 2.2.2 Definition 2 account for overlap
+## 2.2 Definition 2 account for overlap
 ##-------------------------------------------------------------------------
 
 def2=pd.read_csv(r"C:\Users\yangf\Desktop\patientdataperday.csv",engine='python')
@@ -173,7 +174,7 @@ def2.to_csv(r"C:\Users\yangf\Desktop\Definition2.csv")
 1    0.025907
 Name: Meet_90_MME, dtype: float64
 ##-------------------------------------------------------------------------
-## 2.2.3 Definition 3 Defined_observation_window
+## 2.3 Definition 3 Defined_observation_window
 ##-------------------------------------------------------------------------
 
 df=pd.read_csv(r"C:\Users\yangf\Desktop\mergeq3.csv",engine='python')
@@ -198,7 +199,7 @@ def3.to_csv(r"C:\Users\yangf\Desktop\Definition3.csv")
 1    0.002591
 Name: Meet_90_MME, dtype: float64
 ##-------------------------------------------------------------------------
-## 2.2.4 Definition 4 Max Daily
+## 2.4 Definition 4 Max Daily
 ##-------------------------------------------------------------------------
 
 def4=pd.read_csv(r"C:\Users\yangf\Desktop\patientdataperday.csv",engine='python')
@@ -220,3 +221,95 @@ def4.to_csv(r"C:\Users\yangf\Desktop\Definition4.csv")
 1    0.025907
 Name: Meet_90_MME, dtype: float64
 
+################################ Question 3 ##############################################
+#3. Report item 2 among patients who had overlapping Long-Acting (LA) and Short-Acting (SA) opioid prescriptions in 2019 Quarter 3.
+##-------------------------------------------------------------------------
+## 3  Create overlap table form patient data per day table
+##-------------------------------------------------------------------------
+
+overlap=pd.read_csv(r"C:\Users\yangf\Desktop\patientdataperday.csv",engine='python')
+#select limited columns
+overlap=overlap[['PatientID', 'Date','LongShortActing']]
+
+#pick the patient that have SA and lA at the same day
+overlap.drop_duplicates(['PatientID', 'Date','LongShortActing'], inplace=True,keep = 'first')
+overlap =overlap.groupby(["PatientID","Date"])["PatientID"].count().reset_index(name="CountNumberofLASA")
+overlap =overlap[(overlap["CountNumberofLASA"] >= 2)]
+overlap.drop_duplicates(['PatientID'], inplace=True,keep = 'first')
+overlap=overlap[['PatientID']]
+
+overlap.to_csv(r"C:\Users\yangf\Desktop\overlap.csv")
+
+
+##-------------------------------------------------------------------------
+## 3.1  Definition 1: percentage of patients meet the 90 MME per day threshold and have LASA overlap 
+##-------------------------------------------------------------------------
+
+PatientID_Def1=pd.read_csv(r"C:\Users\yangf\Desktop\Definition1.csv",engine='python')
+
+#number of total patient in Q3
+total_Patient = PatientID_Def1.shape[0]
+PatientID_Def1 = PatientID_Def1[(PatientID_Def1["Meet_90_MME"] == 1)]
+PatientID_Def1 = pd.merge(PatientID_Def1,overlap[['PatientID']],on='PatientID', how='inner')
+#number of total patient meet the 90 MME per day threshold and have LASA overlap in Q3 for definition 1
+total_Patient_overlap=PatientID_Def1.shape[0]
+
+# percentage of patients meet the 90 MME per day threshold and have LASA overlap
+Percentage_Def1=(total_Patient_overlap)/total_Patient*100
+
+print(Percentage_Def1 , '% Of patients meet the 90 MME per day threshold and have LASA overlap under definition 1')
+0.2590673575129534 % Of patients meet the 90 MME per day threshold and have LASA overlap under definition 1
+##-------------------------------------------------------------------------
+## 3.2  Definition 2: percentage of patients meet the 90 MME per day threshold and have LASA overlap 
+##-------------------------------------------------------------------------
+
+PatientID_Def2=pd.read_csv(r"C:\Users\yangf\Desktop\Definition2.csv",engine='python')
+#number of total patient in Q3
+total_Patient = PatientID_Def2.shape[0]
+
+PatientID_Def2 = PatientID_Def2[(PatientID_Def2["Meet_90_MME"] == 1)]
+PatientID_Def2 = pd.merge(PatientID_Def2,overlap[['PatientID']],on='PatientID', how='inner')
+
+#number of total patient meet the 90 MME per day threshold and have LASA overlap in Q3 for definition 2
+total_Patient_overlap=PatientID_Def2.shape[0]
+
+# percentage of patients meet the 90 MME per day threshold and have LASA overlap
+Percentage_Def2=(total_Patient_overlap)/total_Patient*100
+
+
+print(Percentage_Def2 , '% Of patients meet the 90 MME per day threshold and have LASA overlap under definition 2')
+##-------------------------------------------------------------------------
+## 3.3  Definition 3: percentage of patients meet the 90 MME per day threshold and have LASA overlap 
+##-------------------------------------------------------------------------
+PatientID_Def3=pd.read_csv(r"C:\Users\yangf\Desktop\Definition3.csv",engine='python')
+
+#number of total patient in Q3
+total_Patient = PatientID_Def3.shape[0]
+PatientID_Def3 = PatientID_Def3[(PatientID_Def3["Meet_90_MME"] == 1)]
+PatientID_Def3 = pd.merge(PatientID_Def3,overlap[['PatientID']],on='PatientID', how='inner')
+
+#number of total patient meet the 90 MME per day threshold and have LASA overlap in Q3 for definition 3
+total_Patient_overlap=PatientID_Def3.shape[0]
+
+# percentage of patients meet the 90 MME per day threshold and have LASA overlap
+Percentage_Def3=(total_Patient_overlap)/total_Patient*100
+
+print(Percentage_Def3 , '% Of patients meet the 90 MME per day threshold and have LASA overlap under definition 3')
+
+##-------------------------------------------------------------------------
+## 3.4  Definition 4: percentage of patients meet the 90 MME per day threshold and have LASA overlap 
+##-------------------------------------------------------------------------
+PatientID_Def4=pd.read_csv(r"C:\Users\yangf\Desktop\Definition4.csv",engine='python')
+
+#number of total patient in Q3
+total_Patient = PatientID_Def4.shape[0]
+PatientID_Def4 = PatientID_Def4[(PatientID_Def4["Meet_90_MME"] == 1)]
+PatientID_Def4 = pd.merge(PatientID_Def4,overlap[['PatientID']],on='PatientID', how='inner')
+
+#number of total patient meet the 90 MME per day threshold and have LASA overlap in Q3 for definition 2
+total_Patient_overlap=PatientID_Def4.shape[0]
+
+# percentage of patients meet the 90 MME per day threshold and have LASA overlap
+Percentage_Def4=(total_Patient_overlap)/total_Patient*100
+
+print(Percentage_Def4 , '% Of patients meet the 90 MME per day threshold and have LASA overlap under definition 4')
